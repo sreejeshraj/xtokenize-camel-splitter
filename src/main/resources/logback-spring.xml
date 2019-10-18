@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html -->
+
+    <springProfile name="default">
+        <appender name="output" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <springProfile name="dev,test">
+        <appender name="output" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <springProfile name="prod">
+        <appender name="output" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>./logs/output.log</File>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>./logs/output-%d{yyyy-MM-dd}.log</FileNamePattern>
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
+            </layout>
+        </appender>
+    </springProfile>
+    
+    <logger name="com.ustglobal" level="debug" additivity="false">
+        <appender-ref ref="output"/>
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="output" />
+    </root>
+
+</configuration>
