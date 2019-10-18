@@ -32,32 +32,14 @@ public class CamelDemoRoute extends RouteBuilder {
 
 		from("file://{{inputFolder}}?noop=true")
 		.routeId("InputFolderToTestSedaRoute")
-		//.split()
-		///.xtokenize("//tns:authorizationIBRequestRecord",'i', namespaces)
-		//.setHeader(RECORD_ID).xpath("tns:authorizationIBRequestRecord/tns:recordId", String.class, namespaces)
 		.log("step 90 is :${body}")
 		.split()
 		.xtokenize("//tns:authorizationIBRequestRecord",'w', namespaces)
-		//.xtokenize("//tns:authorizationIBRequestRecord",'w', namespaces)
+		//.xtokenize("//tns:authorizationIBRequestRecord",'i', namespaces)
 		.log("step 100 is :${body}")
 		.to("file://{{outputFolder}}?fileName=${exchangeProperty.CamelSplitIndex}-${header.CamelFileName}")
 		.end();
-		/*.setHeader("myHeader", constant("MY_HEADER_CONSTANT_VALUE"))
-		.to("seda://testSeda")
-		.log(LoggingLevel.DEBUG, "**** Input File Pushed To Output Folder ***** :"+injectedName);
-
-		from("seda://testSeda")
-		.routeId("TestSedaToOutputFolderRoute")
-		.to("file://{{outputFolder}}")
-		.log("***** myHeader: ${header.myHeader} ***** :"+injectedName);
 		
-		//Error Handling route!
-		
-		from("seda:errorQueue")
-		.routeId("ErrorHandlingRoute")
-		.log("***** error body: ${body} *****")
-		.log("***** Exception Caught: ${exception} *****");
-		*/
 		
 		// @formatter:on
 
